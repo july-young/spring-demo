@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+	<bean id="Person" class="com.july.demo.entity.Person">
+		<property name="age" value="18"/>
+		<property name="name" value="july"/>
+	</bean>
+	<context:component-scan base-package="com.july.demo.service"></context:component-scan>
+	<!-- 切面：切入点和通知 -->
+	<bean id="logger" class="com.july.demo.aop.Logger" />
+	<aop:config>
+		<aop:aspect id="logger" ref="logger">
+			<aop:pointcut expression="execution(* com.july.demo.service..*.*(..))" id="cud" />
+			<aop:before method="recordBefore" pointcut-ref="cud" />
+			<aop:after method="recordAfter" pointcut-ref="cud" />
+		</aop:aspect>
+	</aop:config>
+</beans>
