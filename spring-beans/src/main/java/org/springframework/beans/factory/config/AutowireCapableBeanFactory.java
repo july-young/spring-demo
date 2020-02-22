@@ -316,6 +316,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @see BeanPostProcessor#postProcessAfterInitialization
 	 * @see #ORIGINAL_INSTANCE_SUFFIX
 	 */
+	//代理对象的生成在这个方法中进行的
 	Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName)
 			throws BeansException;
 

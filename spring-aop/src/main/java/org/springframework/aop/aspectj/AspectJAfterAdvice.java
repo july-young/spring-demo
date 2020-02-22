@@ -44,9 +44,13 @@ public class AspectJAfterAdvice extends AbstractAspectJAdvice
 	@Override
 	public Object invoke(MethodInvocation mi) throws Throwable {
 		try {
+			//递归调用proceed方法
+			//执行下一个通知/拦截器
 			return mi.proceed();
 		}
 		finally {
+			//此处就是发生切面增强行为的地方
+			//后置通知的方法总是会被执行 原因就在这finally
 			invokeAdviceMethod(getJoinPointMatch(), null, null);
 		}
 	}

@@ -337,4 +337,12 @@ final class PostProcessorRegistrationDelegate {
 		}
 
 		private boolean isInfrastructureBean(@Nullable String beanName) {
-			if (beanName != null && this.beanFactory
+			if (beanName != null && this.beanFactory.containsBeanDefinition(beanName)) {
+				BeanDefinition bd = this.beanFactory.getBeanDefinition(beanName);
+				return (bd.getRole() == RootBeanDefinition.ROLE_INFRASTRUCTURE);
+			}
+			return false;
+		}
+	}
+
+}

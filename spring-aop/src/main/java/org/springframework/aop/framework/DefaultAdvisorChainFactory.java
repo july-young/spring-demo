@@ -50,7 +50,7 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 	@Override
 	public List<Object> getInterceptorsAndDynamicInterceptionAdvice(
 			Advised config, Method method, @Nullable Class<?> targetClass) {
-
+		// 所有的advistor在config中已经持有了，可以直接使用
 		// This is somewhat tricky... We have to process introductions first,
 		// but we need to preserve order in the ultimate list.
 		AdvisorAdapterRegistry registry = GlobalAdvisorAdapterRegistry.getInstance();
@@ -64,6 +64,8 @@ public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializ
 				// Add it conditionally.
 				PointcutAdvisor pointcutAdvisor = (PointcutAdvisor) advisor;
 				if (config.isPreFiltered() || pointcutAdvisor.getPointcut().getClassFilter().matches(actualClass)) {
+					//通过AdvisorAdapterRegistry注册器，把从config中获取的advistor进行适配，从而获得拦截器，
+					// 再把它放入List中。这就是拦截器注册的过程。
 					MethodMatcher mm = pointcutAdvisor.getPointcut().getMethodMatcher();
 					boolean match;
 					if (mm instanceof IntroductionAwareMethodMatcher) {

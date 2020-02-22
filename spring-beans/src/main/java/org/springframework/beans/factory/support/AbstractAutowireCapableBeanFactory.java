@@ -426,6 +426,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
+			//获取所有的后置处理器对该bean进行操作 然后进入AbstractAutoProxyCreator的
+			//postProcessAfterInitialization方法中
 			Object current = processor.postProcessAfterInitialization(result, beanName);
 			if (current == null) {
 				return result;

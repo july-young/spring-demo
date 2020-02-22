@@ -52,7 +52,11 @@ public class MethodBeforeAdviceInterceptor implements MethodInterceptor, BeforeA
 
 	@Override
 	public Object invoke(MethodInvocation mi) throws Throwable {
+		// 此处就是发生的切面增强行为
+		//执行前置通知的方法
 		this.advice.before(mi.getMethod(), mi.getArguments(), mi.getThis());
+		//递归调用proceed方法，然后进入下一个拦截器的处理
+		//执行下一个通知/拦截器，但是该拦截器是最后一个了，所以会调用目标方法
 		return mi.proceed();
 	}
 

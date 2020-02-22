@@ -162,6 +162,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 		}
 
 		try {
+			//获取目标对象
 			Class<?> rootClass = this.advised.getTargetClass();
 			Assert.state(rootClass != null, "Target class must be available for creating a CGLIB proxy");
 
@@ -176,7 +177,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 
 			// Validate the class, writing log messages as necessary.
 			validateClassIfNecessary(proxySuperClass, classLoader);
-
+			// 创建并配置Enhancer，它是cglib主要的操作类，用于代理对象的生成
 			// Configure CGLIB Enhancer...
 			Enhancer enhancer = createEnhancer();
 			if (classLoader != null) {
@@ -186,6 +187,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 					enhancer.setUseCache(false);
 				}
 			}
+			// 配置enhancer对象，比如 代理接口，父类，回调方法等
 			enhancer.setSuperclass(proxySuperClass);
 			enhancer.setInterfaces(AopProxyUtils.completeProxiedInterfaces(this.advised));
 			enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
@@ -200,7 +202,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 			enhancer.setCallbackFilter(new ProxyCallbackFilter(
 					this.advised.getConfigurationOnlyCopy(), this.fixedInterceptorMap, this.fixedInterceptorOffset));
 			enhancer.setCallbackTypes(types);
-
+			// 通过enhancer来生成代理对象
 			// Generate the proxy class and create a proxy instance.
 			return createProxyClassAndInstance(enhancer, callbacks);
 		}
